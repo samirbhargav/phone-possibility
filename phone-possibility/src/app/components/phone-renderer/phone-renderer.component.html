@@ -1,0 +1,33 @@
+<form [formGroup]="form">
+    <mat-card>
+        <mat-card-title>
+            Phone possibility
+        </mat-card-title>
+        <mat-card-content>
+            <mat-form-field>
+                <input matInput appPhoneMask formControlName="phone" placeholder="Phone number">
+            </mat-form-field> &nbsp;
+            <button mat-raised-button color="primary" style="margin-right:5px;" (click)="onClickToPredict()">Predict</button>
+            <div *ngIf="!spinnerFlag">
+                <div class="spinner-align" *ngIf="predictionList.length > 0">
+                    <p style="margin: 5px;">Total counts {{predictionList.length}}</p>
+                 
+                </div>
+                <mat-selection-list #shoes [multiple]="false">
+                    <mat-list-option *ngFor="let combination of predictionList  | paginate: { itemsPerPage: count, currentPage: page }" [value]="combination">
+                        {{convertData(combination)}}
+                        <mat-divider></mat-divider>
+                    </mat-list-option>
+                </mat-selection-list>
+                <div style="text-align: center; width: 250px;" *ngIf="predictionList.length > 0">
+                    <pagination-controls (pageChange)="page = $event"  [autoHide] ="false"></pagination-controls>
+                </div>
+            </div>
+            <div *ngIf="spinnerFlag" class="spinner-align">
+                <mat-spinner [diameter]="50"></mat-spinner>
+            </div>
+
+        </mat-card-content>
+    </mat-card>
+</form>
+
